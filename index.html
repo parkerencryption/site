@@ -7,7 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none}:root{--p:#64B5F6;--s:#b794f4;--d:#0a0a0f}
-body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk',sans-serif;overflow-x:hidden}
+body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk',sans-serif;overflow-x:hidden;-ms-overflow-style:none;scrollbar-width:none}
+body::-webkit-scrollbar{display:none}
 
 /* Loading Screen */
 #l{position:fixed;inset:0;background:var(--d);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.5s}
@@ -28,20 +29,34 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
 .h::after{content:'';position:absolute;inset:-50%;border-radius:50%;background:conic-gradient(from 0deg,#000510,#000a20,#000510);opacity:.3;animation:rotate 15s linear infinite}
 .h-glow{position:absolute;inset:-75%;border-radius:50%;background:radial-gradient(circle,transparent 50%,rgba(0,0,40,.4) 70%,transparent 90%);filter:blur(30px);animation:pulse 4s ease-in-out infinite}
 
+/* Enhanced Text Effects */
+.w,.p{position:fixed;left:50%;background:linear-gradient(45deg,#fff,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;animation:glisten 8s linear infinite;position:relative}
+.w::after,.p::after,.n h2::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shine 4s linear infinite}
+.w{top:50%;transform:translate(-50%,-50%);font-size:clamp(2rem,8vw,5rem);z-index:2}
+.p{bottom:2rem;transform:translateX(-50%);font-size:.9rem;text-transform:uppercase;letter-spacing:3px}
+
 @keyframes rotate{to{transform:rotate(360deg)}}
 @keyframes pulse{50%{transform:scale(1.1)}}
+@keyframes glisten{
+    0%,100%{filter:brightness(1) blur(0)}
+    50%{filter:brightness(1.2) blur(.3px)}
+}
+@keyframes shine{
+    0%{left:-100%}
+    20%{left:100%}
+    100%{left:100%}
+}
 
 /* Main Content */
 #s{position:fixed;inset:0;overflow:hidden;background:linear-gradient(180deg,var(--d),#141428)}
-.w,.p{position:fixed;left:50%;background:linear-gradient(45deg,#fff,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center}
-.w{top:50%;transform:translate(-50%,-50%);font-size:clamp(2rem,8vw,5rem);z-index:2}
-.p{bottom:2rem;transform:translateX(-50%);font-size:.9rem;text-transform:uppercase;letter-spacing:3px}
 .c{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;opacity:0;padding:2rem;z-index:3;pointer-events:none;transition:.5s}
 .n{max-width:800px;margin:1rem;padding:2rem;background:rgba(20,20,40,.3);border:1px solid rgba(100,181,246,.1);border-radius:10px;backdrop-filter:blur(10px);transform:translateY(30px);transition:.5s}
-.n h2{font-size:2rem;margin-bottom:1rem;background:linear-gradient(45deg,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent}
+.n h2{font-size:2rem;margin-bottom:1rem;background:linear-gradient(45deg,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;animation:glisten 8s linear infinite}
 .n p{font-size:1.2rem;line-height:1.6;color:rgba(255,255,255,.9)}
 .x{position:fixed;bottom:2rem;right:2rem;width:40px;height:40px;background:linear-gradient(45deg,var(--p),var(--s));border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:4;font-size:1.2rem;cursor:pointer;transition:.3s}
-.x:hover{transform:scale(1.1)}</style>
+.x:hover{transform:scale(1.1)}
+
+@media (max-width:768px){.n{margin:.5rem;padding:1.5rem}.n h2{font-size:1.5rem}.n p{font-size:1rem}}</style>
 </head>
 <body>
 <div id="l">
@@ -61,14 +76,13 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
 <script>
 (function(){
     const themes = [
-        ['#1a237e','#311b92'], // Deep space
-        ['#004d40','#006064'], // Cosmic green
-        ['#1a1a2e','#16213e'], // Night sky
-        ['#0d253f','#1a374d'], // Stellar blue
-        ['#200944','#440b54']  // Nebula purple
+        ['#1a237e','#311b92'],
+        ['#004d40','#006064'],
+        ['#1a1a2e','#16213e'],
+        ['#0d253f','#1a374d'],
+        ['#200944','#440b54']
     ];
 
-    // Create stars
     function createStar() {
         const star = document.createElement('div');
         star.className = 'star';
@@ -85,7 +99,6 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
         return star;
     }
 
-    // Initialize starfield
     function createStarfield() {
         const scene = document.getElementById('s');
         const count = window.innerWidth < 768 ? 100 : 200;
@@ -94,7 +107,6 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
         }
     }
 
-    // Loading animation
     const loader = document.getElementById('l');
     const progress = loader.querySelector('.lp');
     const text = loader.querySelector('.lt');
@@ -121,25 +133,21 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
         text.textContent = loadingTexts[Math.floor(p/20)];
     }, 100);
 
-    // Theme switching
     function setTheme() {
         const theme = themes[Math.floor(Math.random() * themes.length)];
         document.documentElement.style.setProperty('--p', theme[0]);
         document.documentElement.style.setProperty('--s', theme[1]);
     }
 
-    // Initialize
     createStarfield();
     setTheme();
 
-    // Scroll handler
     let scrollTimeout;
     window.addEventListener('scroll', () => {
         if (!scrollTimeout) {
             scrollTimeout = setTimeout(() => {
                 const scrollPercent = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight);
                 
-                // Update black hole
                 const blackHole = document.querySelector('.h');
                 const maxSize = Math.max(window.innerWidth, window.innerHeight) * 0.8;
                 const size = scrollPercent < 0.4 ? scrollPercent * 2.5 * maxSize :
@@ -148,7 +156,6 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
                 blackHole.style.width = `${size}px`;
                 blackHole.style.height = `${size}px`;
 
-                // Update other elements
                 document.querySelector('.c').style.opacity = Math.min(1, Math.max(0, (scrollPercent - 0.7) * 3));
                 document.querySelector('.w').style.opacity = Math.max(0, 1 - scrollPercent * 3);
                 document.querySelector('.p').style.opacity = Math.max(0, 1 - scrollPercent * 3);
@@ -158,7 +165,6 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
         }
     }, {passive: true});
 
-    // Theme switcher with black hole effect
     document.querySelector('.x').onclick = () => {
         document.querySelector('.h').style.filter = 'blur(40px) brightness(1.5)';
         setTimeout(() => document.querySelector('.h').style.filter = '', 1000);
