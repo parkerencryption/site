@@ -14,32 +14,24 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
 .lb{width:200px;height:3px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin:20px}
 .lp{width:0;height:100%;background:linear-gradient(90deg,var(--p),var(--s));transition:.3s}
 .lt{font-size:1rem;color:#fff;opacity:.8;letter-spacing:2px}
-.mini-planet{position:absolute;border-radius:50%;animation:float 3s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-10px)}}
 
 /* Stars */
-.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d) ease-in-out infinite}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d) ease-in-out infinite;filter:blur(1px)}
 @keyframes twinkle{
     0%,100%{opacity:var(--min);transform:scale(.8)}
     50%{opacity:var(--max);transform:scale(1)}
 }
 
-/* Galaxy and Black Hole */
-.galaxy{position:fixed;inset:0;perspective:1000px;transform-style:preserve-3d}
-.orbit{position:absolute;left:50%;top:50%;border:1px solid rgba(255,255,255,.1);border-radius:50%;transform:translate(-50%,-50%) rotateX(75deg)}
-.planet{position:absolute;left:50%;top:50%;transform-style:preserve-3d;animation:orbit linear infinite}
-.planet-body{position:absolute;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 20px currentColor}
-
+/* Black Hole */
 .h{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:0;border-radius:50%;z-index:1;transition:.3s cubic-bezier(.4,0,.2,1)}
 .h::before{content:'';position:absolute;inset:-100%;border-radius:50%;background:radial-gradient(circle,#000 30%,rgba(0,0,20,.9) 50%,transparent 70%);filter:blur(20px)}
 .h::after{content:'';position:absolute;inset:-50%;border-radius:50%;background:conic-gradient(from 0deg,#000510,#000a20,#000510);opacity:.3;animation:rotate 15s linear infinite}
 .h-glow{position:absolute;inset:-75%;border-radius:50%;background:radial-gradient(circle,transparent 50%,rgba(0,0,40,.4) 70%,transparent 90%);filter:blur(30px);animation:pulse 4s ease-in-out infinite}
 
-@keyframes orbit{to{transform:rotate(360deg)}}
 @keyframes rotate{to{transform:rotate(360deg)}}
 @keyframes pulse{50%{transform:scale(1.1)}}
 
-/* Rest of your styles */
+/* Main Content */
 #s{position:fixed;inset:0;overflow:hidden;background:linear-gradient(180deg,var(--d),#141428)}
 .w,.p{position:fixed;left:50%;background:linear-gradient(45deg,#fff,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center}
 .w{top:50%;transform:translate(-50%,-50%);font-size:clamp(2rem,8vw,5rem);z-index:2}
@@ -57,7 +49,6 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
     <div class="lt">INITIALIZING QUANTUM CORE</div>
 </div>
 <div id="s">
-    <div class="galaxy"></div>
     <div class="h"><div class="h-glow"></div></div>
     <div class="w">Welcome, I'm Parker</div>
     <div class="p">Breach the Digital Horizon</div>
@@ -69,25 +60,12 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
 <div class="x">🔮</div>
 <script>
 (function(){
-    // Anti-debugging
-    setInterval(function(){debugger;},100);
-    
-    // Theme configuration
     const themes = [
         ['#1a237e','#311b92'], // Deep space
         ['#004d40','#006064'], // Cosmic green
         ['#1a1a2e','#16213e'], // Night sky
         ['#0d253f','#1a374d'], // Stellar blue
         ['#200944','#440b54']  // Nebula purple
-    ];
-
-    // Planet configuration
-    const planets = [
-        {size: 30, orbit: 200, speed: 20, color: '#ff6b6b'},
-        {size: 45, orbit: 300, speed: 25, color: '#4ecdc4'},
-        {size: 25, orbit: 400, speed: 30, color: '#45b7d1'},
-        {size: 35, orbit: 500, speed: 35, color: '#ffbe0b'},
-        {size: 40, orbit: 600, speed: 40, color: '#fb5607'}
     ];
 
     // Create stars
@@ -107,55 +85,13 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
         return star;
     }
 
-    // Initialize stars
+    // Initialize starfield
     function createStarfield() {
         const scene = document.getElementById('s');
         const count = window.innerWidth < 768 ? 100 : 200;
         for (let i = 0; i < count; i++) {
             scene.appendChild(createStar());
         }
-    }
-
-    // Initialize galaxy with planets
-    function createGalaxy() {
-        const galaxy = document.querySelector('.galaxy');
-        planets.forEach((planet, i) => {
-            // Create orbit
-            const orbit = document.createElement('div');
-            orbit.className = 'orbit';
-            orbit.style.width = planet.orbit + 'px';
-            orbit.style.height = planet.orbit + 'px';
-            
-            // Create planet
-            const planetEl = document.createElement('div');
-            planetEl.className = 'planet';
-            planetEl.style.animation = `orbit ${planet.speed}s linear infinite`;
-            
-            // Create planet body
-            const body = document.createElement('div');
-            body.className = 'planet-body';
-            body.style.width = planet.size + 'px';
-            body.style.height = planet.size + 'px';
-            body.style.backgroundColor = planet.color;
-            body.style.color = planet.color;
-            
-            planetEl.appendChild(body);
-            orbit.appendChild(planetEl);
-            galaxy.appendChild(orbit);
-
-            // Add mini planet to loading screen
-            const miniPlanet = document.createElement('div');
-            miniPlanet.className = 'mini-planet';
-            miniPlanet.style.cssText = `
-                width: ${planet.size/2}px;
-                height: ${planet.size/2}px;
-                background: ${planet.color};
-                left: ${50 + Math.cos(i * 72) * 100}px;
-                top: ${50 + Math.sin(i * 72) * 100}px;
-                animation-delay: ${i * 0.2}s
-            `;
-            document.getElementById('l').appendChild(miniPlanet);
-        });
     }
 
     // Loading animation
@@ -192,9 +128,8 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
         document.documentElement.style.setProperty('--s', theme[1]);
     }
 
-    // Initialize everything
+    // Initialize
     createStarfield();
-    createGalaxy();
     setTheme();
 
     // Scroll handler
@@ -223,13 +158,12 @@ body{background:var(--d);min-height:300vh;color:#fff;font-family:'Space Grotesk'
         }
     }, {passive: true});
 
-    // Theme switcher
+    // Theme switcher with black hole effect
     document.querySelector('.x').onclick = () => {
         document.querySelector('.h').style.filter = 'blur(40px) brightness(1.5)';
         setTimeout(() => document.querySelector('.h').style.filter = '', 1000);
         setTheme();
     };
-})();
-</script>
+})();</script>
 </body>
 </html>
