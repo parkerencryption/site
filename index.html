@@ -29,29 +29,23 @@ body::-webkit-scrollbar{display:none}
 .h::after{content:'';position:absolute;inset:-50%;border-radius:50%;background:conic-gradient(from 0deg,#000510,#000a20,#000510);opacity:.3;animation:rotate 15s linear infinite}
 .h-glow{position:absolute;inset:-75%;border-radius:50%;background:radial-gradient(circle,transparent 50%,rgba(0,0,40,.4) 70%,transparent 90%);filter:blur(30px);animation:pulse 4s ease-in-out infinite}
 
-/* Enhanced Text Effects */
-.w,.p{position:fixed;left:50%;background:linear-gradient(45deg,#fff,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;animation:glisten 8s linear infinite;position:relative}
-.w::after,.p::after,.n h2::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shine 4s linear infinite}
+/* Text with Subtle Animation */
+.w,.p{position:fixed;left:50%;background:linear-gradient(45deg,#fff,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;animation:textTwinkle 5s ease-in-out infinite}
 .w{top:50%;transform:translate(-50%,-50%);font-size:clamp(2rem,8vw,5rem);z-index:2}
 .p{bottom:2rem;transform:translateX(-50%);font-size:.9rem;text-transform:uppercase;letter-spacing:3px}
 
 @keyframes rotate{to{transform:rotate(360deg)}}
 @keyframes pulse{50%{transform:scale(1.1)}}
-@keyframes glisten{
-    0%,100%{filter:brightness(1) blur(0)}
-    50%{filter:brightness(1.2) blur(.3px)}
-}
-@keyframes shine{
-    0%{left:-100%}
-    20%{left:100%}
-    100%{left:100%}
+@keyframes textTwinkle{
+    0%,100%{opacity:.95}
+    50%{opacity:1}
 }
 
 /* Main Content */
 #s{position:fixed;inset:0;overflow:hidden;background:linear-gradient(180deg,var(--d),#141428)}
 .c{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;opacity:0;padding:2rem;z-index:3;pointer-events:none;transition:.5s}
 .n{max-width:800px;margin:1rem;padding:2rem;background:rgba(20,20,40,.3);border:1px solid rgba(100,181,246,.1);border-radius:10px;backdrop-filter:blur(10px);transform:translateY(30px);transition:.5s}
-.n h2{font-size:2rem;margin-bottom:1rem;background:linear-gradient(45deg,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;animation:glisten 8s linear infinite}
+.n h2{font-size:2rem;margin-bottom:1rem;background:linear-gradient(45deg,var(--p),var(--s));-webkit-background-clip:text;background-clip:text;color:transparent;animation:textTwinkle 5s ease-in-out infinite}
 .n p{font-size:1.2rem;line-height:1.6;color:rgba(255,255,255,.9)}
 .x{position:fixed;bottom:2rem;right:2rem;width:40px;height:40px;background:linear-gradient(45deg,var(--p),var(--s));border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:4;font-size:1.2rem;cursor:pointer;transition:.3s}
 .x:hover{transform:scale(1.1)}
